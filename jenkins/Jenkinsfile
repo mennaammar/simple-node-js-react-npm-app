@@ -12,15 +12,15 @@ pipeline{
 			
 			
 		}
-// 		stage("sonarqube analysis"){
-// 			steps{
-// 				nodejs(nodeJSInstallationName:'nodejs'){
-// 					sh "npm install"
-// 					withSonarQubeEnv("npm-test"){
-// 						sh "npm install sonar-scanner"
-// 					}
-// 				}
-// 			}
-// 		}
+ 		stage("sonarqube analysis"){
+ 			steps{
+				nodejs(nodeJSInstallationName:'nodejs'){
+ 					sh "npm install"
+					withSonarQubeEnv("npm-test"){
+ 						sh "npm install sonar-scanner"
+ 					}
+				}
+ 			}
+ 		}
 	}
 }
