@@ -26,6 +26,7 @@ pipeline{
 				   -Dsonar.login=41986a4b64f343f848e8ecd65dbfabd6d12b0b62"
 				       }
 				   }
+			}
 //  			steps{
 // 				nodejs(nodeJSInstallationName:'nodejs'){
 // 					sh "npm install"
