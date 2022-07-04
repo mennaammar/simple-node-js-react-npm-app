@@ -1,15 +1,26 @@
 pipeline{
 	agent any
 	stages{
-		stage("sonarqube analysis"){
+		
+		stage("test"){
 			steps{
-				nodejs(nodeJSInstallationName:'nodejs'){
-					sh "npm install"
-					withSonarQubeEnv("npm-test"){
-						sh "npm install sonar-scanner"
-					}
-				}
+				
+			   sh "npm install"	
+				
 			}
+			
+			
+			
 		}
+// 		stage("sonarqube analysis"){
+// 			steps{
+// 				nodejs(nodeJSInstallationName:'nodejs'){
+// 					sh "npm install"
+// 					withSonarQubeEnv("npm-test"){
+// 						sh "npm install sonar-scanner"
+// 					}
+// 				}
+// 			}
+// 		}
 	}
 }
