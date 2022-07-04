@@ -6,7 +6,7 @@ pipeline{
 			steps{
 			nodejs(nodeJSInstallationName:'nodejs'){	
 			   sh "npm install"
-		           sh "docker -v"
+		          // sh "docker -v"
 			}	
 			}
 			
