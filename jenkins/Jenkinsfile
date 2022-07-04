@@ -16,7 +16,8 @@ pipeline{
  			steps{
 				nodejs(nodeJSInstallationName:'nodejs'){
  					sh "npm install"
-					withSonarQubeEnv("npm-test"){
+					withSonarQubeEnv("SonarQube Scanner"){
+						 println ${env.SONAR_HOST_URL} 
  						sh "npm install sonar-scanner"
  					}
 				}
