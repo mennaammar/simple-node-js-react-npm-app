@@ -14,19 +14,14 @@ pipeline{
 		}
  		stage("sonarqube analysis"){
  			steps{
-// 				nodejs(nodeJSInstallationName:'nodejs'){
-//  					sh "npm install"
-// 					withSonarQubeEnv("SonarQube Scanner"){
-// 						// println ${env.SONAR_HOST_URL} 
-//  						sh "npm install sonar-scanner"
-//  					}
-// 				}
+				nodejs(nodeJSInstallationName:'nodejs'){
+					sh "npm install"
+ 					withSonarQubeEnv("SonarQube Scanner"){
+ 						// println ${env.SONAR_HOST_URL} 
+  						sh "npm install sonar-scanner"
+ 					} 				}
 				
-				
-				    //def scannerHome = tool 'SonarScanner 4.0';
-				    withSonarQubeEnv('SonarQube Scanner') { // If you have configured more than one global server connection, you can specify its name
-				      sh "${scannerHome}/bin/sonar-scanner"
-				    }
+			
 					
 				  
  			}
