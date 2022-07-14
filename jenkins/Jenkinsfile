@@ -1,23 +1,45 @@
 pipeline{
-	agent any
+	environment {
+        
+        VERSION = "1.1.1"
+        REGISTRY = 'test/nodejs'
+        REGISTRY_CREDENTIAL = 'conatiner-registery'
+    }
+	agent {
+      
+		kubernetes {
+            defaultContainer 'jnlp'
+            yamlFile 'build.yaml'
+        }
+	}
 	stages{
-		
+		stage("docker"){
+            steps {
+		    script{
+			def dockerHome = tool 'docker'
+                  env.PATH = "${dockerHome}/docker:${env.PATH}"
+			    sh "docker version"
+		    docker.withRegistry('https://auh.ocir.io','conatiner-registery'){
+				
+			    docker.build("test/nodejs",".")
+		}
+		    }
+//                	container('docker') {
+//                    	sh "docker build -t ${REGISTRY}:${VERSION} ."
+//              	}
+		    container('helm') {
+                    sh "helm version"
+                }
+            
+        }
+		      }
 		stage("test"){
 			steps{
 			nodejs(nodeJSInstallationName:'nodejs'){	
 			   sh "npm install"
-		          // sh "docker -v"
-			}	
-			}
-			
-			
-			
-		}
- 		stage("sonarqube analysis"){
-			
-			steps {
-			       script {
-			       def scannerHome = tool 'sonarqube-container';
+			   sh "npm run build"
+				script {
+				
 				   withSonarQubeEnv("test-npm") {
 				   sh "${tool("sonarqube-container")}/bin/sonar-scanner \
 				   -Dsonar.projectKey=test-npm  \
@@ -26,8 +48,29 @@ pipeline{
 				   -Dsonar.host.url=http://129.151.158.98:9000  \
 				   -Dsonar.login=41986a4b64f343f848e8ecd65dbfabd6d12b0b62"
 				       }
-				   }
+				}
+		          // sh "docker -v"
+			}	
 			}
+			
+			
+			
+		}
+ //		stage("sonarqube analysis"){
+//			
+//			steps {
+//			       script {
+//			       def scannerHome = tool 'sonarqube-container';
+//				   withSonarQubeEnv("test-npm") {
+//				   sh "${tool("sonarqube-container")}/bin/sonar-scanner \
+//				   -Dsonar.projectKey=test-npm  \
+//				   -Dsonar.sources=. \
+//				   -Dsonar.css.node=. \
+//				   -Dsonar.host.url=http://129.151.158.98:9000  \
+//				   -Dsonar.login=41986a4b64f343f848e8ecd65dbfabd6d12b0b62"
+//				       }
+//				   }
+//			}
 //  			steps{
 // 				nodejs(nodeJSInstallationName:'nodejs'){
 // 					sh "npm install"
@@ -42,5 +85,5 @@ pipeline{
 				  
 //  			}
  		}
-	}
+	
 }
