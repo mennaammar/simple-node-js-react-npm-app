@@ -5,26 +5,35 @@ pipeline{
         REGISTRY = 'test/nodejs'
         REGISTRY_CREDENTIAL = 'conatiner-registery'
     }
-	agent {
+   agent any
+// 	agent {
       
-		kubernetes {
-//             defaultContainer 'jnlp'
-            yamlFile 'build.yaml'
-			idleMinutes 5 
-        }
-	}
+// 		kubernetes {
+// //             defaultContainer 'jnlp'
+//             yamlFile 'build.yaml'
+// 			idleMinutes 5 
+//         }
+// 	}
 	stages{
 		stage("docker"){
             steps {
+		     script{
+			def dockerHome = tool 'docker'
+                  env.PATH = "${dockerHome}/docker:${env.PATH}"
+			    sh "docker version"
+		    docker.withRegistry('https://auh.ocir.io','conatiner-registery'){
+				
+			    docker.build("test/nodejs",".")
+		}
 
-               	container('docker') {
+//                	container('docker') {
 
-			sh "docker version"
-                   	sh "docker build -t ${REGISTRY}:${VERSION} ."
-             	}
-		    container('helm') {
-                    sh "helm version"
-                }
+// 			sh "docker version"
+//                    	sh "docker build -t ${REGISTRY}:${VERSION} ."
+//              	}
+// 		    container('helm') {
+//                     sh "helm version"
+//                 }
             
         }
 		      }
