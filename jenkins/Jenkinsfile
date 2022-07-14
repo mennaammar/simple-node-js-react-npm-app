@@ -25,7 +25,8 @@ pipeline{
 // 		}
 // 		    }
                	container('docker') {
-			sh "service docker status"
+		//	sh "service docker status"
+			sh "docker version"
                    	sh "docker build -t ${REGISTRY}:${VERSION} ."
              	}
 		    container('helm') {
