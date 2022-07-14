@@ -6,18 +6,18 @@ metadata:
 spec:
   containers:
     - name: docker
-      image: docker:latest
+      image: docker:dind
       command: ["tail", "-f", "/dev/null"]
       imagePullPolicy: Always
-      volumeMounts:
-        - name: docker
-          mountPath: /var/run/docker.sock 
+#       volumeMounts:
+#         - name: docker
+#           mountPath: /var/run/docker.sock 
     - name: helm
       image: lachlanevenson/k8s-helm:v3.1.1
       command:
         - cat
       tty: true
-  volumes:
-    - name: docker
-      hostPath:
-        path: /var/run/docker.sock
+#   volumes:
+#     - name: docker
+#       hostPath:
+#         path: /var/run/docker.sock
