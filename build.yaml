@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
     - name: docker
-      image: docker:20.10.17-dind
+      image: docker:latest
       command: ["tail", "-f", "/dev/null"]
       imagePullPolicy: Always
       volumeMounts:
