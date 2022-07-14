@@ -6,14 +6,7 @@ pipeline{
         REGISTRY_CREDENTIAL = 'conatiner-registery'
     }
    agent any
-// 	agent {
-      
-// 		kubernetes {
-// //             defaultContainer 'jnlp'
-//             yamlFile 'build.yaml'
-// 			idleMinutes 5 
-//         }
-// 	}
+
 	stages{
 		stage("docker"){
             steps {
@@ -26,14 +19,7 @@ pipeline{
 			    docker.build("test/nodejs",".")
 		}
 
-//                	container('docker') {
 
-// 			sh "docker version"
-//                    	sh "docker build -t ${REGISTRY}:${VERSION} ."
-//              	}
-// 		    container('helm') {
-//                     sh "helm version"
-//                 }
             
        }
 		      }
@@ -41,4 +27,5 @@ pipeline{
 
  		}
 	
+    }
 }
