@@ -14,10 +14,10 @@ pipeline{
 			def dockerHome = tool 'docker'
                   env.PATH = "${dockerHome}/docker:${env.PATH}"
 			    sh "docker version"
-		    docker.withRegistry('https://auh.ocir.io','conatiner-registery'){
+// 		    docker.withRegistry('https://auh.ocir.io','conatiner-registery'){
 				
 			    docker.build("test/nodejs",".")
-		}
+// 		}
 
 
             
