@@ -18,6 +18,6 @@ spec:
         - cat
       tty: true
   volumes:
-    - name: dockersock
+    - name: docker
       hostPath:
         path: /var/run/docker.sock
