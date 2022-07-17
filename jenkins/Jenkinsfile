@@ -46,9 +46,24 @@ spec:
          steps {
             container('podman') {
           //    docker 
-              sh  "podman build . -t test/test"
+              sh  "podman build . -t mennaammar/test"
               sh " podman images"
-          
+         
+                withCredentials([usernamePassword(credentialsId: "dockerhub-menna",
+                                               usernameVariable: 'USERNAME',
+                                               passwordVariable: 'PASSWORD')]) {
+                    sh """
+                    #!/bin/bash
+
+                    # Construct Image Name
+                    
+                    
+                    podman login -u ${USERNAME} -p ${PASSWORD} docker.io --tls-verify=false
+
+                    podman push mennaammar/test --tls-verify=false
+                    """
+                }
+            
 //               sh '''
 //               echo -e 'FROM busybox\nRUN echo "hello world"' | podman --events-backend=file build -t  ghcr.io/mysticrenji/hello:latest -
 //               '''
