@@ -45,9 +45,12 @@ spec:
       stage('Podman Build') {
          steps {
             container('podman') {
-              sh '''
-              echo -e 'FROM busybox\nRUN echo "hello world"' | podman --events-backend=file build -t  ghcr.io/mysticrenji/hello:latest -
-              '''
+          //    docker 
+              sh  "podman build . -t test/test"
+          
+//               sh '''
+//               echo -e 'FROM busybox\nRUN echo "hello world"' | podman --events-backend=file build -t  ghcr.io/mysticrenji/hello:latest -
+//               '''
             }
          }
       }
