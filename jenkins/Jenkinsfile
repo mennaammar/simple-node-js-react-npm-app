@@ -47,6 +47,7 @@ spec:
             container('podman') {
           //    docker 
               sh  "podman build . -t test/test"
+              sh " podman images"
           
 //               sh '''
 //               echo -e 'FROM busybox\nRUN echo "hello world"' | podman --events-backend=file build -t  ghcr.io/mysticrenji/hello:latest -
@@ -54,18 +55,18 @@ spec:
             }
          }
       }
-      stage('Podman docker-compose') {
-         steps {
-            container('podman') {
-              sh '''
-              git clone https://github.com/mysticrenji/podman-experiments.git
-              cd podman-experiments
-              podman-compose up -d
-              podman-compose down
-              podman images
-              '''
-            }
-         }
+//       stage('Podman docker-compose') {
+//          steps {
+//             container('podman') {
+//               sh '''
+//               git clone https://github.com/mysticrenji/podman-experiments.git
+//               cd podman-experiments
+//               podman-compose up -d
+//               podman-compose down
+//               podman images
+//               '''
+//             }
+//          }
       }
    }
 }
