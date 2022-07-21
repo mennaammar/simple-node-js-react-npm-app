@@ -6,21 +6,21 @@ pipeline{
         }
 	}
  	stages{
-// 		stage('Test') {
-// 		      steps {
-// 			script {
-// 				nodejs(nodeJSInstallationName:'nodejs'){
+		stage('Test') {
+		      steps {
+			script {
+				nodejs(nodeJSInstallationName:'nodejs'){
 				
-// 					sh "npm install -g jest && npm install --include=dev jest-junit && npm install && npm run  test tests/"
-// 				}
-// 			}
-// 		      }
-// 		      post {
-// 			always {
-// 			  step([$class: 'CoberturaPublisher', coberturaReportFile: './cobertura-coverage.xml'])
-// 			}
-// 		      }
-// 		    }
+					sh "npm install -g jest  && npm install && npm run  test tests/"
+				}
+			}
+		      }
+		      post {
+			always {
+			  step([$class: 'CoberturaPublisher', coberturaReportFile: './cobertura-coverage.xml'])
+			}
+		      }
+		    }
 		stage("SonarQube"){
 			steps{
 				nodejs(nodeJSInstallationName:'nodejs'){	
