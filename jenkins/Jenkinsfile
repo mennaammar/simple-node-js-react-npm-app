@@ -11,7 +11,7 @@ pipeline{
 			script {
 				nodejs(nodeJSInstallationName:'nodejs'){
 				
-					sh "npm install jest --save-dev && npm install jest-junit --save-dev && npm install --save-dev @babel/plugin-syntax-jsx && npm install && npm run  test && ls"
+					sh "npm install && npm run  test && ls"
 				}
 			}
 		      }
