@@ -25,6 +25,7 @@
       "text"
     ],
     "reporters": [
+       "jest-tap-reporter",
       "default",
       "jest-junit"
     ]
