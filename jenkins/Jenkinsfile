@@ -11,7 +11,7 @@ pipeline{
 			script {
 				nodejs(nodeJSInstallationName:'nodejs'){
 				
-					sh "npm install -g jest  && npm install && npm run  test tests/"
+					sh "npm install -g jest  && npm install && npm run  test"
 				}
 			}
 		      }
