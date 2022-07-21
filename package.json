@@ -12,5 +12,24 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "scripts": {
+    "start": "webpack",
+    "test": "jest --coverage --coverageDirectory=output/coverage/jest"
+  },
+  "jest": {
+    "coverageReporters": [
+      "text"
+    ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ],
+
+  },
+  "jest-junit": {
+    "output": "output/coverage/junit/junit.xml",
+    "usePathForSuiteName": "true"
   }
+
 }
