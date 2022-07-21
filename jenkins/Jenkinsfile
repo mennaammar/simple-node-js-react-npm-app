@@ -1,87 +1,73 @@
-pipeline {
-  agent {
-      kubernetes {
-      label 'kubernetes'
-      defaultContainer 'podman'
-     yaml '''
----
-apiVersion: v1
-kind: Pod
-metadata:
-  namespace: "jenkins"
-spec:
-  containers:
-    - name: podman
-      imagePullPolicy: Always
-      image: docker.io/mysticrenji/podman:latest
-      command:
-        - cat
-      tty: true
-      securityContext:
-        privileged: true
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: podman-volume
-        - mountPath: /dev/shm
-          name: devshm-volume
-        - mountPath: /var/run
-          name: varrun-volume
-        - mountPath: /tmp
-          name: tmp-volume
-  restartPolicy: Never
-  volumes:
-    - name: podman-volume
-      emptyDir: {}
-    - emptyDir:
-        medium: Memory
-      name: devshm-volume
-    - emptyDir: {}
-      name: varrun-volume
-    - emptyDir: {}
-      name: tmp-volume
-      '''
-      }}
-   stages {
-      stage('Podman Build') {
-         steps {
-            container('podman') {
-          //    docker 
-              sh  "podman build . -t mennaammar/test"
-              sh " podman images"
-         
-                withCredentials([usernamePassword(credentialsId: "dockerhub-menna",
-                                               usernameVariable: 'USERNAME',
-                                               passwordVariable: 'PASSWORD')]) {
-                    sh """
-                    #!/bin/bash
+pipeline{
+	agent {
+		kubernetes {
+            defaultContainer 'jnlp'
+            yamlFile 'build.yaml'
+        }
+	}
+// 	stages{
+// 		stage('Test') {
+// 		      steps {
+// 			script {
+// 				nodejs(nodeJSInstallationName:'nodejs'){
+				
+// 					sh "npm install -g jest && npm install --include=dev jest-junit && npm install && npm run  test tests/"
+// 				}
+// 			}
+// 		      }
+// 		      post {
+// 			always {
+// 			  step([$class: 'CoberturaPublisher', coberturaReportFile: './cobertura-coverage.xml'])
+// 			}
+// 		      }
+// 		    }
+		stage("SonarQube"){
+			steps{
+				nodejs(nodeJSInstallationName:'nodejs'){	
+		
+				sh "npm install && npm run build"
+					script {
+					
+					sh "${tool("sonarqube-container")}/bin/sonar-scanner \
+					  -Dsonar.projectKey=test \
+					  -Dsonar.sources=. \
+					  -Dsonar.host.url=http://129.151.139.181:9000 \
+					  -Dsonar.login=f63392c1ba820340860f44314880c1197389b2b4"
+						}
+					
+				}
+			}
+			
+		}
+		stage("Quality gate") {
+			    steps {
+				waitForQualityGate abortPipeline: true
+			    }
+			}
+	
+        
+ 
+// 		stage("Image Build and Push "){
+// 			steps {
+// 				container('podman') {
+// 					sh  "podman build ./nodejs -t elamin88/node-test"			
+// 					withCredentials([usernamePassword(credentialsId: "dockerhub-amin",
+// 													usernameVariable: 'USERNAME',
+// 													passwordVariable: 'PASSWORD')]) {
+// 						sh "podman login -u ${USERNAME} -p ${PASSWORD} docker.io --tls-verify=false"
+// 						sh "podman push elamin88/node-test --tls-verify=false"
+// 					}
+// 				}
+// 			}
+// 		}
 
-                    # Construct Image Name
-                    
-                    
-                    podman login -u ${USERNAME} -p ${PASSWORD} docker.io --tls-verify=false
 
-                    podman push mennaammar/test --tls-verify=false
-                    """
-                }
-            
-//               sh '''
-//               echo -e 'FROM busybox\nRUN echo "hello world"' | podman --events-backend=file build -t  ghcr.io/mysticrenji/hello:latest -
-//               '''
-            }
-         }
-      }
-//       stage('Podman docker-compose') {
-//          steps {
-//             container('podman') {
-//               sh '''
-//               git clone https://github.com/mysticrenji/podman-experiments.git
-//               cd podman-experiments
-//               podman-compose up -d
-//               podman-compose down
-//               podman images
-//               '''
-//             }
-//          }
-    //  }
-   }
+// 		stage("Helm"){
+// 			steps {
+// 				container('helm') {
+// 						sh "helm -n abdo upgrade --install nodejs ./chart"
+// 				}
+// 			}
+// 		}
+	}
 }
