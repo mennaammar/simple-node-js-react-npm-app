@@ -11,7 +11,7 @@ pipeline{
 			script {
 				nodejs(nodeJSInstallationName:'nodejs'){
 				
-					sh "npm install -g jest && npm install -g jest-junit  && npm install && npm run  test && ls"
+					sh "npm install -g jest && npm install jest-junit --save-dev  && npm install && npm run  test && ls"
 				}
 			}
 		      }
