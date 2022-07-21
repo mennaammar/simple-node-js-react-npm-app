@@ -5,7 +5,7 @@ pipeline{
             yamlFile 'build.yaml'
         }
 	}
-// 	stages{
+ 	stages{
 // 		stage('Test') {
 // 		      steps {
 // 			script {
@@ -69,5 +69,5 @@ pipeline{
 // 				}
 // 			}
 // 		}
-//	}
+	}
 }
