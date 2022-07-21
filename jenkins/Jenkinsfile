@@ -31,8 +31,9 @@ pipeline{
 					sh "${tool("sonarqube-container")}/bin/sonar-scanner \
 					  -Dsonar.projectKey=test \
 					  -Dsonar.sources=. \
-					  -Dsonar.host.url=http://129.151.139.181:9000 \
-                                     -Dsonar.login=f63392c1ba820340860f44314880c1197389b2b4"
+					  -Dsonar.host.url=http://129.151.139.181:9000" 
+						  //\
+                                  //   -Dsonar.login=f63392c1ba820340860f44314880c1197389b2b4"
 						}
 					}
 				}
